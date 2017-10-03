@@ -19,16 +19,6 @@
     </properties>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <targetPath>../resources</targetPath>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -122,14 +112,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <organization>
-        <name>EPAM Systems</name>
-        <url>http://epam.com</url>
-    </organization>
-    <issueManagement>
-        <system>GIT</system>
-        <url>https://git.epam.com/yuriy_tkach/spring-core-hometask-skeleton/issues</url>
-    </issueManagement>
-
 
 </project>
