@@ -11,10 +11,16 @@
         </constructor-arg>
     </bean>
 
-    <bean id="auditoriumServiceImpl" class="by.epam.aliaksei.litvin.service.impl.AuditoriumServiceImpl">
+    <bean id="auditoriumServiceImpl" class="by.epam.aliaksei.litvin.service.impl.AuditoriumServiceImpl" init-method="init">
+        <constructor-arg value="auditoriums.csv"/>
+    </bean>
+
+    <bean id="eventServiceImpl" class="by.epam.aliaksei.litvin.service.impl.EventServiceImpl">
         <constructor-arg>
-            <bean class="java.util.HashSet"/>
+            <bean class="java.util.ArrayList"/>
         </constructor-arg>
     </bean>
+
+    <bean id="bookingServiceImpl" class="by.epam.aliaksei.litvin.service.impl.BookingServiceImpl"/>
 
 </beans>
