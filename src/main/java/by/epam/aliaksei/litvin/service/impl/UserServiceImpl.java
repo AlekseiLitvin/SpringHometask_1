@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(@Nonnull String email) {
         return users.stream()
+                .filter(user -> user.getEmail() != null)
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
                 .orElse(null);
@@ -49,6 +50,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Collection<User> getAll() {
         return users;
+    }
+
+    public void removeAll() {
+        users.clear();
     }
 
 

@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 public class BookingServiceImpl implements BookingService {
 
+    private static final int VIP_SEAT_MODIFIER = 2;
+
     private EventService eventService;
     private UserService userService;
     private AuditoriumService auditoriumService;
@@ -25,14 +27,10 @@ public class BookingServiceImpl implements BookingService {
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
         double basePrice = event.getBasePrice();
         double ratingModifier = getPriceModifierBasedOnEventRating(event.getRating());
-        Collection<Auditorium> auditoriums = event.getAuditoriums().entrySet().stream()
-                .filter(entry -> entry.getKey().equals(dateTime))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-                .values();
-        int vipSeatsNumber = getVipSeatsNumber(auditoriums, seats);
-
-
-        return 0;
+        Auditorium auditorium = event.getAuditoriums().get(dateTime);
+        int vipSeatsNumber = (int) auditorium.countVipSeats(seats);
+        int regularSeatsNumber = seats.size() - vipSeatsNumber;
+        return basePrice * ratingModifier * regularSeatsNumber + basePrice * ratingModifier * VIP_SEAT_MODIFIER * vipSeatsNumber;
     }
 
     @Override
@@ -69,15 +67,5 @@ public class BookingServiceImpl implements BookingService {
             default:
                 throw new IllegalArgumentException("Illegal rating value");
         }
-    }
-
-    private int getVipSeatsNumber(Collection<Auditorium> auditoriums, Set<Long> seats) {
-        final int[] vipSeatsNumber = {0};
-        auditoriums.forEach(auditorium -> {
-            Set<Long> vipSeats = auditorium.getVipSeats();
-            vipSeats.retainAll(seats);
-            vipSeatsNumber[0] += vipSeats.size();
-        });
-        return vipSeatsNumber[0];
     }
 }

@@ -51,7 +51,7 @@ public class User extends DomainObject {
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email);
+        return Objects.hash(firstName, lastName, email, getId());
     }
 
     @Override

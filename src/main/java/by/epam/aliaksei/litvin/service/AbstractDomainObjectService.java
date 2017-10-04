@@ -46,4 +46,9 @@ public interface AbstractDomainObjectService<T extends DomainObject> {
      * @return collection of objects
      */
     @Nonnull Collection<T> getAll();
+
+    /**
+     * Removes all entries from data source
+     */
+    void removeAll();
 }

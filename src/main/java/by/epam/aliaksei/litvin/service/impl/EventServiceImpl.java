@@ -38,13 +38,13 @@ public class EventServiceImpl implements EventService{
     @Nonnull
     @Override
     public Set<Event> getNextEvents(@Nonnull LocalDateTime to) {
-        Set<Event> events = new HashSet<>();
+        Set<Event> result = new HashSet<>();
         events.forEach(event -> {
             NavigableSet<LocalDateTime> airDates = event.getAirDates().headSet(to, true);
             event.setAirDates(airDates);
-            events.add(event);
+            result.add(event);
         });
-        return events;
+        return result;
     }
 
     @Override
@@ -71,5 +71,10 @@ public class EventServiceImpl implements EventService{
     @Override
     public Collection<Event> getAll() {
         return events;
+    }
+
+    @Override
+    public void removeAll() {
+        events.clear();
     }
 }
