@@ -17,11 +17,9 @@ import java.util.stream.Collectors;
 
 public class BookingServiceImpl implements BookingService {
 
-    private static final int VIP_SEAT_MODIFIER = 2;
+    private int vipSeatModifier;
 
-    private EventService eventService;
     private UserService userService;
-    private AuditoriumService auditoriumService;
 
     @Override
     public double getTicketsPrice(@Nonnull Event event, @Nonnull LocalDateTime dateTime, @Nullable User user, @Nonnull Set<Long> seats) {
@@ -30,12 +28,12 @@ public class BookingServiceImpl implements BookingService {
         Auditorium auditorium = event.getAuditoriums().get(dateTime);
         int vipSeatsNumber = (int) auditorium.countVipSeats(seats);
         int regularSeatsNumber = seats.size() - vipSeatsNumber;
-        return basePrice * ratingModifier * regularSeatsNumber + basePrice * ratingModifier * VIP_SEAT_MODIFIER * vipSeatsNumber;
+        return basePrice * ratingModifier * regularSeatsNumber + basePrice * ratingModifier * vipSeatModifier * vipSeatsNumber;
     }
 
     @Override
     public void bookTickets(@Nonnull Set<Ticket> tickets) {
-
+        tickets.forEach(ticket -> userService.save(ticket.getUser()));
     }
 
     @Nonnull
@@ -52,9 +50,6 @@ public class BookingServiceImpl implements BookingService {
         return purchasedTickets;
     }
 
-    public void setEventService(EventServiceImpl eventService) {
-        this.eventService = eventService;
-    }
 
     private double getPriceModifierBasedOnEventRating(EventRating rating) {
         switch (rating) {
@@ -67,5 +62,21 @@ public class BookingServiceImpl implements BookingService {
             default:
                 throw new IllegalArgumentException("Illegal rating value");
         }
+    }
+
+    public int getVipSeatModifier() {
+        return vipSeatModifier;
+    }
+
+    public void setVipSeatModifier(int vipSeatModifier) {
+        this.vipSeatModifier = vipSeatModifier;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

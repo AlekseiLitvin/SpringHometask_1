@@ -1,5 +1,6 @@
 package by.epam.aliaksei.litvin.domain;
 
+import java.time.LocalDate;
 import java.util.NavigableSet;
 import java.util.Objects;
 import java.util.TreeSet;
@@ -14,6 +15,16 @@ public class User extends DomainObject {
     private String lastName;
 
     private String email;
+
+    private LocalDate birthday;
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
 
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 

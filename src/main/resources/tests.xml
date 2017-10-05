@@ -12,17 +12,27 @@
     </bean>
 
     <bean id="auditoriumServiceImpl" class="by.epam.aliaksei.litvin.service.impl.AuditoriumServiceImpl" init-method="init">
-        <constructor-arg value="auditoriums.csv"/>
+        <constructor-arg value="test_auditoriums.csv"/>
     </bean>
 
-    <bean id="eventServiceImpl" class="by.epam.aliaksei.litvin.service.impl.EventServiceImpl">
+    <bean id="everyNTicketDiscountStrategy" class="by.epam.aliaksei.litvin.strategies.impl.EveryNTicketDiscountStrategy">
+        <property name="ticketsForDiscountNumber" value="10"/>
+    </bean>
+
+    <bean id="birthdayDiscountStrategy" class="by.epam.aliaksei.litvin.strategies.impl.BirthdayDiscountStrategy"/>
+
+    <bean id="discountServiceImpl" class="by.epam.aliaksei.litvin.service.impl.DiscountServiceImpl">
         <constructor-arg>
-            <bean class="java.util.ArrayList"/>
+            <list value-type="by.epam.aliaksei.litvin.strategies.DiscountStrategy">
+                <ref bean="birthdayDiscountStrategy"/>
+                <ref bean="everyNTicketDiscountStrategy"/>
+            </list>
         </constructor-arg>
     </bean>
 
     <bean id="bookingServiceImpl" class="by.epam.aliaksei.litvin.service.impl.BookingServiceImpl">
-        <property name="vipSeatModifier" value="2"/>
+        <property name="vipSeatModifier" value="3"/>
+        <property name="userService" ref="userServiceImpl"/>
     </bean>
 
 </beans>
