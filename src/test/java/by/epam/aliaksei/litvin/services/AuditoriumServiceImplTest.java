@@ -1,5 +1,6 @@
 package by.epam.aliaksei.litvin.services;
 
+import by.epam.aliaksei.litvin.config.TestAppConfig;
 import by.epam.aliaksei.litvin.domain.Auditorium;
 import by.epam.aliaksei.litvin.service.impl.AuditoriumServiceImpl;
 import org.junit.Before;
@@ -10,11 +11,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/tests.xml")
+@ContextConfiguration(classes = TestAppConfig.class, loader = AnnotationConfigContextLoader.class)
 public class AuditoriumServiceImplTest {
 
     private static final String BIG_AUDITORUM_NAME = "Big auditorium";

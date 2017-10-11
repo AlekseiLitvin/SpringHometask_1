@@ -1,5 +1,6 @@
 package by.epam.aliaksei.litvin.services;
 
+import by.epam.aliaksei.litvin.config.TestAppConfig;
 import by.epam.aliaksei.litvin.domain.*;
 import by.epam.aliaksei.litvin.service.impl.BookingServiceImpl;
 import by.epam.aliaksei.litvin.service.impl.UserServiceImpl;
@@ -7,10 +8,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -18,7 +19,7 @@ import java.util.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/tests.xml")
+@ContextConfiguration(classes = TestAppConfig.class, loader = AnnotationConfigContextLoader.class)
 public class BookingServiceImplTest {
 
     @Autowired

@@ -1,22 +1,21 @@
 package by.epam.aliaksei.litvin.services;
 
+import by.epam.aliaksei.litvin.config.TestAppConfig;
 import by.epam.aliaksei.litvin.domain.User;
-import by.epam.aliaksei.litvin.service.UserService;
 import by.epam.aliaksei.litvin.service.impl.UserServiceImpl;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.annotation.Resource;
-
-import java.util.Collection;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/spring.xml")
+@ContextConfiguration(classes = TestAppConfig.class, loader = AnnotationConfigContextLoader.class)
 public class UserServiceImplTest {
 
     @Autowired

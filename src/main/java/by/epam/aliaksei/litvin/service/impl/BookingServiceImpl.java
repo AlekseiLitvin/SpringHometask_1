@@ -1,17 +1,13 @@
 package by.epam.aliaksei.litvin.service.impl;
 
 import by.epam.aliaksei.litvin.domain.*;
-import by.epam.aliaksei.litvin.service.AuditoriumService;
 import by.epam.aliaksei.litvin.service.BookingService;
-import by.epam.aliaksei.litvin.service.EventService;
 import by.epam.aliaksei.litvin.service.UserService;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 

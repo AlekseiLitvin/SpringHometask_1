@@ -1,6 +1,8 @@
 package by.epam.aliaksei.litvin.services;
 
 
+import by.epam.aliaksei.litvin.config.DiscountsConfig;
+import by.epam.aliaksei.litvin.config.TestAppConfig;
 import by.epam.aliaksei.litvin.domain.Event;
 import by.epam.aliaksei.litvin.domain.Ticket;
 import by.epam.aliaksei.litvin.domain.User;
@@ -12,13 +14,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/tests.xml")
+@ContextConfiguration(classes = DiscountsConfig.class, loader = AnnotationConfigContextLoader.class)
 public class DiscountServiceImplTest {
 
     private Event event;

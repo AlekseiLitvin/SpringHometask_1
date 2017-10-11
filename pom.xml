@@ -16,6 +16,7 @@
         <spring.version>3.2.16.RELEASE</spring.version>
         <findbugs.version>3.0.1</findbugs.version>
         <junit.version>4.12</junit.version>
+        <aspectj.version>1.7.4</aspectj.version>
     </properties>
 
     <build>
@@ -74,18 +75,10 @@
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>3.0.3</version>
                 <configuration>
-                    <!-- Enables analysis which takes more memory but finds
-                        more bugs. If you run out of memory, changes the value of the effort element
-                        to 'Low'. -->
                     <effort>Max</effort>
-                    <!-- Build doesn't fail if problems are found -->
                     <failOnError>false</failOnError>
-                    <!-- Reports all bugs (other values are medium and max) -->
                     <threshold>Low</threshold>
-                    <!-- Produces XML report -->
                     <xmlOutput>true</xmlOutput>
-                    <!-- Configures the directory in which the XML report
-                        is created -->
                     <findbugsXmlOutputDirectory>${project.build.directory}/findbugs</findbugsXmlOutputDirectory>
                 </configuration>
             </plugin>
@@ -118,23 +111,25 @@
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>3.2.16.RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>3.2.16.RELEASE</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- AspectJ dependencies -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjtools</artifactId>
+            <version>${aspectj.version}</version>
         </dependency>
 
     </dependencies>

@@ -1,16 +1,16 @@
 package by.epam.aliaksei.litvin.services;
 
+import by.epam.aliaksei.litvin.config.TestAppConfig;
 import by.epam.aliaksei.litvin.domain.Event;
-import by.epam.aliaksei.litvin.service.EventService;
 import by.epam.aliaksei.litvin.service.impl.EventServiceImpl;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ import java.util.TreeSet;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/spring.xml")
+@ContextConfiguration(classes = TestAppConfig.class, loader = AnnotationConfigContextLoader.class)
 public class EventServiceImplTest {
 
     private static final String EVENT_NAME = "name";
