@@ -6,10 +6,7 @@ import by.epam.aliaksei.litvin.strategies.DiscountStrategy;
 import by.epam.aliaksei.litvin.strategies.impl.BirthdayDiscountStrategy;
 import by.epam.aliaksei.litvin.strategies.impl.EveryNTicketDiscountStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ import java.util.List;
 @Configuration
 @ComponentScan("by.epam.aliaksei.litvin")
 @PropertySource("app.properties")
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class DiscountsConfig {
 
     @Autowired
