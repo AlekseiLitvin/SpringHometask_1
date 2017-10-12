@@ -18,6 +18,9 @@ public class EventServiceImpl implements EventService{
         this.events = events;
     }
 
+    public EventServiceImpl() {
+    }
+
     @Nullable
     @Override
     public Event getByName(@Nonnull String name) {

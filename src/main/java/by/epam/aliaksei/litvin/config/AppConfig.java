@@ -1,6 +1,7 @@
 package by.epam.aliaksei.litvin.config;
 
 
+import by.epam.aliaksei.litvin.aspects.CounterAspect;
 import by.epam.aliaksei.litvin.aspects.DiscountAspect;
 import by.epam.aliaksei.litvin.service.AuditoriumService;
 import by.epam.aliaksei.litvin.service.BookingService;
@@ -10,6 +11,7 @@ import by.epam.aliaksei.litvin.service.impl.AuditoriumServiceImpl;
 import by.epam.aliaksei.litvin.service.impl.BookingServiceImpl;
 import by.epam.aliaksei.litvin.service.impl.EventServiceImpl;
 import by.epam.aliaksei.litvin.service.impl.UserServiceImpl;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -50,6 +52,13 @@ public class AppConfig {
     @Bean
     public DiscountAspect discountAspect() {
         return new DiscountAspect(new HashMap<>(), new HashMap<>());
+    }
+
+    @Bean
+    public CounterAspect counterAspect() {
+        CounterAspect counterAspect = new CounterAspect();
+        counterAspect.setEventsAccessedByName(new HashMap<>());
+        return counterAspect;
     }
 
 }
