@@ -37,7 +37,7 @@ public class CounterAspect {
     }
 
     @After("execution(* by.epam.aliaksei.litvin.service.impl.BookingServiceImpl.bookTickets(java.util.Set<by.epam.aliaksei.litvin.domain.Ticket>))")
-    public void bookedeTicketsCounter() {
+    public void bookedTicketsCounter() {
         System.out.println("WORK");
     }
 

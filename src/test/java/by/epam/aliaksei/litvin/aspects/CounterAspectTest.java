@@ -98,4 +98,9 @@ public class CounterAspectTest {
         assertEquals(accessesNumber.longValue(), 2);
     }
 
+    @Test
+    public void test_bookTicket() {
+
+    }
+
 }
