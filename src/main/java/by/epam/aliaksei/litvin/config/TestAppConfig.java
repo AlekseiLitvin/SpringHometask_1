@@ -1,5 +1,6 @@
 package by.epam.aliaksei.litvin.config;
 
+import by.epam.aliaksei.litvin.aspects.CounterAspect;
 import by.epam.aliaksei.litvin.aspects.DiscountAspect;
 import by.epam.aliaksei.litvin.service.AuditoriumService;
 import by.epam.aliaksei.litvin.service.BookingService;
@@ -45,6 +46,14 @@ public class TestAppConfig {
     @Bean
     public DiscountAspect discountAspect() {
         return new DiscountAspect(new HashMap<>(), new HashMap<>());
+    }
+
+    @Bean
+    public CounterAspect counterAspect() {
+        CounterAspect counterAspect = new CounterAspect();
+        counterAspect.setEventsAccessedByName(new HashMap<>());
+        counterAspect.setPriceQueriedNumbers(new HashMap<>());
+        return counterAspect;
     }
 
 }

@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class BookingServiceImpl implements BookingService {
         double basePrice = event.getBasePrice();
         double ratingModifier = getPriceModifierBasedOnEventRating(event.getRating());
         Auditorium auditorium = event.getAuditoriums().get(dateTime);
-        int vipSeatsNumber = (int) auditorium.countVipSeats(seats);
+        int vipSeatsNumber = Math.toIntExact(Optional.ofNullable(auditorium).map(auditorium1 -> auditorium1.countVipSeats(seats)).orElse(0L));
         int regularSeatsNumber = seats.size() - vipSeatsNumber;
         return basePrice * ratingModifier * regularSeatsNumber + basePrice * ratingModifier * vipSeatModifier * vipSeatsNumber;
     }

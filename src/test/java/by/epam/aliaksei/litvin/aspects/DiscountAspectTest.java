@@ -7,7 +7,6 @@ import by.epam.aliaksei.litvin.domain.User;
 import by.epam.aliaksei.litvin.service.DiscountService;
 import by.epam.aliaksei.litvin.strategies.impl.BirthdayDiscountStrategy;
 import by.epam.aliaksei.litvin.strategies.impl.EveryNTicketDiscountStrategy;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

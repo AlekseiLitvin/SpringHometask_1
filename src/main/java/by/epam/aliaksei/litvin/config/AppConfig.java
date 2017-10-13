@@ -3,6 +3,7 @@ package by.epam.aliaksei.litvin.config;
 
 import by.epam.aliaksei.litvin.aspects.CounterAspect;
 import by.epam.aliaksei.litvin.aspects.DiscountAspect;
+import by.epam.aliaksei.litvin.domain.Event;
 import by.epam.aliaksei.litvin.service.AuditoriumService;
 import by.epam.aliaksei.litvin.service.BookingService;
 import by.epam.aliaksei.litvin.service.EventService;
@@ -58,6 +59,7 @@ public class AppConfig {
     public CounterAspect counterAspect() {
         CounterAspect counterAspect = new CounterAspect();
         counterAspect.setEventsAccessedByName(new HashMap<>());
+        counterAspect.setPriceQueriedNumbers(new HashMap<>());
         return counterAspect;
     }
 
