@@ -1,16 +1,13 @@
 package by.epam.aliaksei.litvin;
 
-import by.epam.aliaksei.litvin.aspects.CounterAspect;
 import by.epam.aliaksei.litvin.config.AppConfig;
-import by.epam.aliaksei.litvin.domain.Auditorium;
-import by.epam.aliaksei.litvin.domain.Event;
-import by.epam.aliaksei.litvin.domain.EventRating;
-import by.epam.aliaksei.litvin.domain.User;
-import by.epam.aliaksei.litvin.service.EventService;
+import by.epam.aliaksei.litvin.domain.*;
+import by.epam.aliaksei.litvin.service.BookingService;
+import by.epam.aliaksei.litvin.service.UserService;
 import by.epam.aliaksei.litvin.service.impl.BookingServiceImpl;
-import by.epam.aliaksei.litvin.service.impl.EventServiceImpl;
+import by.epam.aliaksei.litvin.service.impl.UserServiceImpl;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -18,6 +15,10 @@ import java.util.*;
 public class Runner {
 
     public static void main(String[] args) {
+
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+        UserService userService = ctx.getBean(UserServiceImpl.class);
+        BookingService bookingService = ctx.getBean(BookingServiceImpl.class);
 
         Auditorium auditorium = new Auditorium();
         auditorium.setName("Big");
@@ -36,23 +37,22 @@ public class Runner {
             put(LocalDateTime.now(), auditorium);
         }});
 
-
-        Set<Long> seats = new HashSet<>();
-        seats.add((long) 1);
-        seats.add((long) 2);
-        seats.add((long) 3);
-        seats.add((long) 4);
-        seats.add((long) 5);
-
-        AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-        EventService eventServiceImpl = ctx.getBean(EventServiceImpl.class);
-        BookingServiceImpl bookingServiceImpl = ctx.getBean(BookingServiceImpl.class);
-        eventServiceImpl.save(event);
-
-        bookingServiceImpl.getTicketsPrice(event, LocalDateTime.now(), new User(), seats);
+        User user = new User();
+        user.setFirstName("Alexey");
+        user.setLastName("Litvin");
 
 
-        CounterAspect bean1 = ctx.getBean(CounterAspect.class);
-        System.out.println(bean1.getPriceQueriedNumbers());
+        userService.save(user);
+
+        Ticket ticket1 = new Ticket(user, event, LocalDateTime.now(), 10);
+        Ticket ticket2 = new Ticket(user, event, LocalDateTime.now(), 11);
+        NavigableSet<Ticket> tickets = new TreeSet<>();
+        tickets.add(ticket1);
+        tickets.add(ticket2);
+
+        user.setTickets(tickets);
+
+        bookingService.bookTickets(tickets);
+
     }
 }

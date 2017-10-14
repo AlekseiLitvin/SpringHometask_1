@@ -2,6 +2,8 @@ package by.epam.aliaksei.litvin.services;
 
 import by.epam.aliaksei.litvin.config.TestAppConfig;
 import by.epam.aliaksei.litvin.domain.*;
+import by.epam.aliaksei.litvin.service.BookingService;
+import by.epam.aliaksei.litvin.service.UserService;
 import by.epam.aliaksei.litvin.service.impl.BookingServiceImpl;
 import by.epam.aliaksei.litvin.service.impl.UserServiceImpl;
 import org.junit.After;
@@ -23,10 +25,10 @@ import static org.junit.Assert.assertEquals;
 public class BookingServiceImplTest {
 
     @Autowired
-    private BookingServiceImpl bookingService;
+    private BookingService bookingService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     private Event event;
     private Auditorium auditorium;

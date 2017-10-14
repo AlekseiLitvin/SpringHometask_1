@@ -47,7 +47,9 @@ public class AppConfig {
 
     @Bean
     public BookingService bookingService() {
-        return new BookingServiceImpl();
+        BookingServiceImpl bookingService = new BookingServiceImpl();
+        bookingService.setUserService(userService());
+        return bookingService;
     }
 
     @Bean
@@ -60,6 +62,7 @@ public class AppConfig {
         CounterAspect counterAspect = new CounterAspect();
         counterAspect.setEventsAccessedByName(new HashMap<>());
         counterAspect.setPriceQueriedNumbers(new HashMap<>());
+        counterAspect.setTicketsBookedCounter(new HashMap<>());
         return counterAspect;
     }
 

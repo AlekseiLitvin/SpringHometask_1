@@ -53,6 +53,7 @@ public class TestAppConfig {
         CounterAspect counterAspect = new CounterAspect();
         counterAspect.setEventsAccessedByName(new HashMap<>());
         counterAspect.setPriceQueriedNumbers(new HashMap<>());
+        counterAspect.setTicketsBookedCounter(new HashMap<>());
         return counterAspect;
     }
 
