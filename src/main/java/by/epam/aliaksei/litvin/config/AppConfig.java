@@ -16,7 +16,10 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -30,9 +33,9 @@ public class AppConfig {
     @Autowired
     private Environment env;
 
-    @Bean
-    public UserService userService() {
-        return new UserServiceImpl(new ArrayList<>());
+    @Bean(initMethod = "init")
+    public UserServiceImpl userService() {
+        return new UserServiceImpl(jdbcTemplate());
     }
 
     @Bean(initMethod = "init")
@@ -40,9 +43,9 @@ public class AppConfig {
         return new AuditoriumServiceImpl(env.getProperty("auditoriums.filename"));
     }
 
-    @Bean
-    public EventService eventService() {
-        return new EventServiceImpl(new ArrayList<>());
+    @Bean(initMethod = "init")
+    public EventServiceImpl eventService() {
+        return new EventServiceImpl(jdbcTemplate());
     }
 
     @Bean
@@ -64,6 +67,21 @@ public class AppConfig {
         counterAspect.setPriceQueriedNumbers(new HashMap<>());
         counterAspect.setTicketsBookedCounter(new HashMap<>());
         return counterAspect;
+    }
+
+    @Bean
+    public DriverManagerDataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(env.getProperty("driverClassName"));
+        dataSource.setUrl(env.getProperty("db.url"));
+        dataSource.setUsername("username");
+        dataSource.setPassword("password");
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
     }
 
 }

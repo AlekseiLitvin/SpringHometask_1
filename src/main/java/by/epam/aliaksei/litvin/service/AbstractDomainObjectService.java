@@ -38,7 +38,7 @@ public interface AbstractDomainObjectService<T extends DomainObject> {
      *            id of the object
      * @return Found object or <code>null</code>
      */
-    T getById(@Nonnull Long id);
+    T getById(@Nonnull String id);
 
     /**
      * Getting all objects from storage

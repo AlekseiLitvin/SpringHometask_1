@@ -1,25 +1,37 @@
 package by.epam.aliaksei.litvin.service.impl;
 
 import by.epam.aliaksei.litvin.domain.Event;
+import by.epam.aliaksei.litvin.domain.User;
 import by.epam.aliaksei.litvin.service.EventService;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class EventServiceImpl implements EventService{
+public class EventServiceImpl implements EventService {
 
+    private JdbcTemplate jdbcTemplate;
     private List<Event> events;
 
-    public EventServiceImpl(List<Event> events) {
-        this.events = events;
+    public EventServiceImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public EventServiceImpl() {
+    public void init() {
+        jdbcTemplate.update("CREATE TABLE events (\n" +
+                "id VARCHAR(50) PRIMARY KEY,\n" +
+                "name VARCHAR(30),\n" +
+                "airDates SET,\n" +
+                "email  VARCHAR(50),\n" +
+                "birthday  DATE\n" +
+                ")");
     }
+
 
     @Nullable
     @Override
@@ -52,8 +64,6 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public Event save(@Nonnull Event object) {
-        object.setId((long) events.size());
-        events.add(object);
         return object;
     }
 
@@ -63,7 +73,7 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public Event getById(@Nonnull Long id) {
+    public Event getById(@Nonnull String id) {
         return events.stream()
                 .filter(event -> event.getId().equals(id))
                 .findFirst()
@@ -79,5 +89,17 @@ public class EventServiceImpl implements EventService{
     @Override
     public void removeAll() {
         events.clear();
+    }
+
+    private Event getByField(String fieldName, String fieldValue) {
+        Event event = null;
+        List<Map<String, Object>> users = jdbcTemplate.queryForList("SELECT * FROM events WHERE " + fieldName + " = ?", fieldValue);
+        if (!users.isEmpty()) {
+            event = new Event();
+            Map<String, Object> userAttributes = users.get(0);
+            event.setId((String) userAttributes.get("ID"));
+            //TODO
+        }
+        return event;
     }
 }
