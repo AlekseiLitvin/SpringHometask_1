@@ -2,6 +2,7 @@ package by.epam.aliaksei.litvin.config;
 
 import by.epam.aliaksei.litvin.aspects.CounterAspect;
 import by.epam.aliaksei.litvin.aspects.DiscountAspect;
+import by.epam.aliaksei.litvin.daos.impl.UserDaoImpl;
 import by.epam.aliaksei.litvin.service.AuditoriumService;
 import by.epam.aliaksei.litvin.service.BookingService;
 import by.epam.aliaksei.litvin.service.UserService;
@@ -28,8 +29,12 @@ public class TestAppConfig {
     private Environment env;
 
     @Bean(initMethod = "init")
+    public UserDaoImpl userDao() {
+        return new UserDaoImpl(jdbcTemplate());
+    }
+    @Bean
     public UserServiceImpl userService() {
-        return new UserServiceImpl(jdbcTemplate());
+        return new UserServiceImpl(userDao());
     }
 
     @Bean(initMethod = "init")

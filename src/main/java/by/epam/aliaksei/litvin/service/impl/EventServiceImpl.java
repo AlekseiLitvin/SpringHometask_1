@@ -23,13 +23,14 @@ public class EventServiceImpl implements EventService {
     }
 
     public void init() {
-        jdbcTemplate.update("CREATE TABLE events (\n" +
-                "id VARCHAR(50) PRIMARY KEY,\n" +
-                "name VARCHAR(30),\n" +
-                "airDates SET,\n" +
-                "email  VARCHAR(50),\n" +
-                "birthday  DATE\n" +
-                ")");
+        //TODO
+//        jdbcTemplate.update("CREATE TABLE events (\n" +
+//                "id VARCHAR(50) PRIMARY KEY,\n" +
+//                "name VARCHAR(30),\n" +
+//                "airDates SET,\n" +
+//                "email  VARCHAR(50),\n" +
+//                "birthday  DATE\n" +
+//                ")");
     }
 
 
