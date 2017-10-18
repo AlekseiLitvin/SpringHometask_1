@@ -1,5 +1,6 @@
 package by.epam.aliaksei.litvin.service.impl;
 
+import by.epam.aliaksei.litvin.daos.EventDao;
 import by.epam.aliaksei.litvin.domain.Event;
 import by.epam.aliaksei.litvin.domain.User;
 import by.epam.aliaksei.litvin.service.EventService;
@@ -15,24 +16,12 @@ import java.util.stream.Collectors;
 
 public class EventServiceImpl implements EventService {
 
-    private JdbcTemplate jdbcTemplate;
+    private EventDao eventDao;
     private List<Event> events;
 
-    public EventServiceImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public EventServiceImpl(EventDao eventDao) {
+        this.eventDao = eventDao;
     }
-
-    public void init() {
-        //TODO
-//        jdbcTemplate.update("CREATE TABLE events (\n" +
-//                "id VARCHAR(50) PRIMARY KEY,\n" +
-//                "name VARCHAR(30),\n" +
-//                "airDates SET,\n" +
-//                "email  VARCHAR(50),\n" +
-//                "birthday  DATE\n" +
-//                ")");
-    }
-
 
     @Nullable
     @Override
@@ -92,15 +81,4 @@ public class EventServiceImpl implements EventService {
         events.clear();
     }
 
-    private Event getByField(String fieldName, String fieldValue) {
-        Event event = null;
-        List<Map<String, Object>> users = jdbcTemplate.queryForList("SELECT * FROM events WHERE " + fieldName + " = ?", fieldValue);
-        if (!users.isEmpty()) {
-            event = new Event();
-            Map<String, Object> userAttributes = users.get(0);
-            event.setId((String) userAttributes.get("ID"));
-            //TODO
-        }
-        return event;
-    }
 }
