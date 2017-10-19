@@ -2,15 +2,25 @@ package by.epam.aliaksei.litvin.daos.impl;
 
 import by.epam.aliaksei.litvin.daos.AbstractDomainObjectDao;
 import by.epam.aliaksei.litvin.domain.Event;
-import by.epam.aliaksei.litvin.domain.EventRating;
 import by.epam.aliaksei.litvin.domain.Ticket;
+import by.epam.aliaksei.litvin.domain.User;
+import by.epam.aliaksei.litvin.service.EventService;
+import by.epam.aliaksei.litvin.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.sql.Date;
 import java.util.*;
 
 public class TicketsDaoImpl implements AbstractDomainObjectDao<Ticket> {
 
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private EventService eventService;
 
     public TicketsDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -26,10 +36,14 @@ public class TicketsDaoImpl implements AbstractDomainObjectDao<Ticket> {
     }
 
     @Override
-    public Ticket save(Ticket object) {//TODO
-        jdbcTemplate.update("INSERT INTO tickets(id, userId, ticketId, date, seat) VALUES ( ?, ?, ?, ?, ?)",
-                UUID.randomUUID().toString(), object.getName(), object.getBasePrice(), object.getRating().name(),);
-        return object;
+    public Ticket save(Ticket ticket) {
+        jdbcTemplate.update("INSERT INTO tickets(id, userId, eventId, date, seat) VALUES (?, ?, ?, ?, ?)",
+                UUID.randomUUID().toString(),
+                ticket.getUser().getId(),
+                ticket.getEvent().getId(),
+                Date.valueOf(ticket.getDateTime().toLocalDate()),
+                ticket.getSeat());
+        return ticket;
     }
 
     @Override
@@ -39,7 +53,20 @@ public class TicketsDaoImpl implements AbstractDomainObjectDao<Ticket> {
 
     @Override
     public Ticket getById(String id) {
-        return null;
+        Ticket ticket = null;
+        List<Map<String, Object>> tickets = jdbcTemplate.queryForList("SELECT * FROM events WHERE id = ?", id);
+        if (!tickets.isEmpty()) {
+            Map<String, Object> ticketsAttributes = tickets.get(0);
+            String userId = (String) ticketsAttributes.get("userId");
+            User user = userService.getById(userId);
+            String eventId = (String) ticketsAttributes.get("eventId");
+            Event event = eventService.getById(eventId);
+            Date date = (Date)ticketsAttributes.get("date");
+            long seat = (long) ticketsAttributes.get("seat");
+            ticket = new Ticket(user, event, date.toLocalDate().atStartOfDay(), seat);
+            ticket.setId(id);
+        }
+        return ticket;
     }
 
     @Override
@@ -47,12 +74,16 @@ public class TicketsDaoImpl implements AbstractDomainObjectDao<Ticket> {
         List<Ticket> result = new ArrayList<>();
         List<Map<String, Object>> events = jdbcTemplate.queryForList("SELECT * FROM tickets");
         events.forEach(it -> {
-            Event event = new Event();
-            event.setId((String) it.get("ID"));
-            event.setName((String) it.get("userId"));
-            event.setBasePrice((Double) it.get("basePrice"));
-            event.setRating(EventRating.valueOf((String) it.get("eventRating")));
-            result.add(event);
+            String id = (String) it.get("userId");
+            String userId = (String) it.get("userId");
+            User user = userService.getById(userId);
+            String eventId = (String) it.get("eventId");
+            Event event = eventService.getById(eventId);
+            Date date = (Date)it.get("date");
+            long seat = (long) it.get("seat");
+            Ticket ticket = new Ticket(user, event, date.toLocalDate().atStartOfDay(), seat);
+            ticket.setId(id);
+            result.add(ticket);
         });
         return result;
     }

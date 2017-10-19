@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EventDaoImpl implements EventDao {
 
@@ -37,13 +38,23 @@ public class EventDaoImpl implements EventDao {
     @Nonnull
     @Override
     public Set<Event> getForDateRange(@Nonnull LocalDate from, @Nonnull LocalDate to) {
-        return null;
-    }
+        List<Event> events = getAll();
+        return events.stream()
+                .filter(event -> event.airsOnDates(from, to))
+                .collect(Collectors.toSet());
+}
 
     @Nonnull
     @Override
     public Set<Event> getNextEvents(@Nonnull LocalDateTime to) {
-        return null;
+        List<Event> events = getAll();
+        Set<Event> result = new HashSet<>();
+        events.forEach(event -> {
+            NavigableSet<LocalDateTime> airDates = event.getAirDates().headSet(to, true);
+            event.setAirDates(airDates);
+            result.add(event);
+        });
+        return result;
     }
 
     @Override
@@ -64,7 +75,7 @@ public class EventDaoImpl implements EventDao {
     }
 
     @Override
-    public Collection<Event> getAll() {
+    public List<Event> getAll() {
         List<Event> result = new ArrayList<>();
         List<Map<String, Object>> events = jdbcTemplate.queryForList("SELECT * FROM events");
         events.forEach(it -> {
