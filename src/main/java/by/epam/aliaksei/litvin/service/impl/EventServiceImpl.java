@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
 
     private EventDao eventDao;
-    private List<Event> events;
 
     public EventServiceImpl(EventDao eventDao) {
         this.eventDao = eventDao;
@@ -26,59 +25,46 @@ public class EventServiceImpl implements EventService {
     @Nullable
     @Override
     public Event getByName(@Nonnull String name) {
-        return events.stream()
-                .filter(event -> event.getName().equals(name))
-                .findFirst()
-                .orElse(null);
+        return eventDao.getByName(name);
     }
 
     @Nonnull
     @Override
     public Set<Event> getForDateRange(@Nonnull LocalDate from, @Nonnull LocalDate to) {
-        return events.stream()
-                .filter(event -> event.airsOnDates(from, to))
-                .collect(Collectors.toSet());
+        return eventDao.getForDateRange(from, to);
     }
 
     @Nonnull
     @Override
     public Set<Event> getNextEvents(@Nonnull LocalDateTime to) {
-        Set<Event> result = new HashSet<>();
-        events.forEach(event -> {
-            NavigableSet<LocalDateTime> airDates = event.getAirDates().headSet(to, true);
-            event.setAirDates(airDates);
-            result.add(event);
-        });
-        return result;
+        return eventDao.getNextEvents(to);
     }
 
     @Override
     public Event save(@Nonnull Event object) {
+        eventDao.save(object);
         return object;
     }
 
     @Override
     public void remove(@Nonnull Event object) {
-        events.remove(object);
+        eventDao.remove(object);
     }
 
     @Override
     public Event getById(@Nonnull String id) {
-        return events.stream()
-                .filter(event -> event.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return eventDao.getById(id);
     }
 
     @Nonnull
     @Override
     public Collection<Event> getAll() {
-        return events;
+        return eventDao.getAll();
     }
 
     @Override
     public void removeAll() {
-        events.clear();
+        eventDao.removeAll();
     }
 
 }

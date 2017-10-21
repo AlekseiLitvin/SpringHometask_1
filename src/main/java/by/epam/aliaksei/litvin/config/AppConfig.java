@@ -4,6 +4,7 @@ package by.epam.aliaksei.litvin.config;
 import by.epam.aliaksei.litvin.aspects.CounterAspect;
 import by.epam.aliaksei.litvin.aspects.DiscountAspect;
 import by.epam.aliaksei.litvin.daos.EventDao;
+import by.epam.aliaksei.litvin.daos.impl.CounterDaoImpl;
 import by.epam.aliaksei.litvin.daos.impl.EventDaoImpl;
 import by.epam.aliaksei.litvin.daos.impl.TicketsDaoImpl;
 import by.epam.aliaksei.litvin.daos.impl.UserDaoImpl;
@@ -59,6 +60,11 @@ public class AppConfig {
     @Bean(initMethod = "init")
     public TicketsDaoImpl ticketsDao() {
         return new TicketsDaoImpl(jdbcTemplate());
+    }
+
+    @Bean(initMethod = "init")
+    public CounterDaoImpl counterDao() {
+        return new CounterDaoImpl(jdbcTemplate());
     }
 
     @Bean(initMethod = "init")
